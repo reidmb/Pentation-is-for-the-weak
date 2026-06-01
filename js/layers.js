@@ -25,6 +25,13 @@ addLayer("b", {
         {key: "b", description: "B: Reset for balloons", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return true},
+    update(diff) {
+        if (hasUpgrade('b', 21)) {
+            let pendingBalloons = getResetGain('b');
+            let passiveGain = pendingBalloons.times(diff);
+            player.b.points = player.b.points.add(passiveGain);
+        }
+    },
     upgrades: {
         11: {
             title: "BU1",
@@ -73,6 +80,12 @@ addLayer("b", {
             effectDisplay() {
                 return "*" + format(upgradeEffect(this.layer, this.id))
             },
-        }
+        },
+        21: {
+            title: "BU6",
+            description: "Gain 100% of your balloons on reset every second",
+            cost: new Decimal("1e9"),
+            unlocked() { return hasUpgrade('b', 15); },
+        },
     }
 })
