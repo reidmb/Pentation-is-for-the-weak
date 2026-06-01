@@ -36,5 +36,20 @@ addLayer("b", {
             description: "Adds 2 to your base air gain.",
             cost: new Decimal(3),
         },
+        13: {
+            title: "BU3",
+            description: "Multiplies your air gain by (balloons+log(balloons+10))^0.8",
+            cost: new Decimal(5),
+            effect() {
+                let balloons = player.b.points;
+                let logPart = balloons.add(10).log10(); 
+                let baseValue = balloons.add(logPart);
+                let finalEffect = baseValue.pow(0.8);
+                return finalEffect;
+            },
+            effectDisplay() {
+                return "*" + format(upgradeEffect(this.layer, this.id));
+            },
+        },
     }
 })
