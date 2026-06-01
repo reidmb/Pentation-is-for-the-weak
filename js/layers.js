@@ -57,7 +57,7 @@ addLayer("b", {
             description: "Multiplies your air gain by balloon upgrades bought.",
             cost: new Decimal(100),
             effect() {
-                return Object.keys(player.b.upgrades).length;
+                return new Decimal(Object.keys(player.b.upgrades).length).max(1);
             },
         },
         15: {
@@ -66,7 +66,9 @@ addLayer("b", {
             cost: new Decimal(1000),
             tooltip: "<small>Formula: log2(air+2)^1.25</small>",
             effect() {
-                return log2(air+2)^1.25;
+                let air = player.points;
+                let logBase2 = air.add(2).log10().div(new Decimal(2).log10());
+                return logBase2.pow(1.25).max(1);
             },
             effectDisplay() {
                 return "*" + format(upgradeEffect(this.layer, this.id))
