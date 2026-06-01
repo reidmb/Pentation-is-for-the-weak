@@ -100,7 +100,7 @@ addLayer("b", {
                 if (player.points.lte(new Decimal("1e201"))){
                     return air.times(0.1).pow(0.15);
                 }
-                return new Decimal(10).pow((air.times(0.1).pow(0.15).log10().pow(0.9).times(new Decimal(1e30).pow(0.1))));
+                return new Decimal(10).pow((air.times(0.1).pow(0.15).log10().pow(0.9).add(3)));
             },
             effectDisplay() {
                 return "*" + format(upgradeEffect(this.layer, this.id))
