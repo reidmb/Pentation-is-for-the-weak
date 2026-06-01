@@ -95,6 +95,7 @@ addLayer("b", {
             description: "Multiply your balloons based on air.",
             cost: new Decimal("1e11"),
             tooltip: "<small>Formula: (air/10)^0.15, softcaps at 1e201 air</small>",
+            unlocked() { return hasUpgrade('b', 15); },
             effect() {
                 let air = player.points
                 if (player.points.lte(new Decimal("1e201"))){
@@ -110,11 +111,13 @@ addLayer("b", {
             title: "BU8",
             description: "Multiply your balloons by 1e10.",
             cost: new Decimal("1e30"),
+            unlocked() { return hasUpgrade('b', 15); },
         },
         24: {
             title: "BU9",
             description: "Raise your air by to 1.2",
             cost: new Decimal("1e70")
+            unlocked() { return hasUpgrade('b', 15); },
         }
     }
 })
