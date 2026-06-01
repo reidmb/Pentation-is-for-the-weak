@@ -18,8 +18,8 @@ let VERSION = {
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.1</h3><br>
-		- Added air.
-		- Added balloons.<br>`
+		- Added air, balloons.<br>
+		- Added 2 balloon upgrades.<br>`
 
 let winText = `Congratulations! You made a few too many balloons. What now?`
 
@@ -58,7 +58,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.b.gte(new Decimal(100))
+	return player.b.points.gte(new Decimal(100))
 }
 
 
