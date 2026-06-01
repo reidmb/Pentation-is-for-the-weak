@@ -52,5 +52,25 @@ addLayer("b", {
                 return "*" + format(upgradeEffect(this.layer, this.id));
             },
         },
+        14: {
+            title: "BU4",
+            description: "Multiplies your air gain by balloon upgrades bought.",
+            cost: new Decimal(100),
+            effect() {
+                return Object.keys(player.b.upgrades).length;
+            },
+        },
+        15: {
+            title: "BU5",
+            description: "Multiplies your air gain based on air.",
+            cost: new Decimal(1000),
+            tooltip: "<small>Formula: log2(air+2)^1.25</small>",
+            effect() {
+                return log2(air+2)^1.25;
+            },
+            effectDisplay() {
+                return "*" + format(upgradeEffect(this.layer, this.id))
+            },
+        }
     }
 })

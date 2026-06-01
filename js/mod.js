@@ -18,8 +18,8 @@ let VERSION = {
 
 let changelog = `<h1>Changelog:</h1><br>
 	<h3>v0.1</h3><br>
-		- Added air, balloons.<br>
-		- Added 2 balloon upgrades.<br>`
+		- Added balloons.<br>
+		- Added 5 balloon upgrades.<br>`
 
 let winText = `Congratulations! You made a few too many balloons. What now?`
 
@@ -45,6 +45,8 @@ function getPointGen() {
 	if (hasUpgrade('b', 12)) gain = gain.add(2);
 	if (hasUpgrade('b', 11)) gain = gain.times(2);
 	if (hasUpgrade('b', 13)) gain = gain.times(upgradeEffect('b', 13));
+	if (hasUpgrade('b', 14)) gain = gain.times(upgradeEffect('b', 14));
+	if (hasUpgrade('b', 15)) gain = gain.times(upgradeEffect('b', 15));
 	return gain;
 }
 
@@ -59,7 +61,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.b.points.gte(new Decimal(100))
+	return player.points.gte(new Decimal(1000000))
 }
 
 
