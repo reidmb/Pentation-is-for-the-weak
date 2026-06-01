@@ -1,6 +1,6 @@
 let modInfo = {
 	name: "The Balloon Tree",
-	author: "The universe",
+	author: "The universe itself",
 	pointsName: "air",
 	modFiles: ["layers.js", "tree.js"],
 
