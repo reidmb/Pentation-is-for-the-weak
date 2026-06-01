@@ -43,12 +43,24 @@ function getPointGen() {
 		return new Decimal(0)
 
 	let gain = new Decimal(1)
+
+	//Addition
+	//B upgrades
 	if (hasUpgrade('b',12)) gain = gain.add(2);
+	
+	//Multiplication
+	//B upgrades
 	if (hasUpgrade('b',11)) gain = gain.times(2);
 	if (hasUpgrade('b',13)) gain = gain.times(upgradeEffect('b',13));
 	if (hasUpgrade('b',14)) gain = gain.times(upgradeEffect('b',14));
 	if (hasUpgrade('b',15)) gain = gain.times(upgradeEffect('b',15));
-	if (hasUpgrade('b',24)) gain = gain.pow(1.2)
+	//Achievement rewards
+	if (hasAchievement('a',12)) gain = gain.times(1.1);
+
+	//Exponentiation
+	//B upgrades
+	if (hasUpgrade('b',24)) gain = gain.pow(1.2);
+	//Ok done
 	return gain;
 }
 

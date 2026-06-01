@@ -45,12 +45,14 @@ addLayer("b", {
             title: "BU2",
             description: "Adds 2 to your base air gain.",
             cost: new Decimal(3),
+            unlocked() {return hasUpgrade('b',11);},
         },
         13: {
             title: "BU3",
             description: "Multiplies your air gain based on balloons.",
             cost: new Decimal(5),
             tooltip: "<small>Formula: (balloons+log(balloons+10))^0.8</small>",
+            unlocked() {return hasUpgrade('b',12);},
             effect() {
                 let balloons = player.b.points;
                 let logPart = balloons.add(10).log10(); 
@@ -66,6 +68,7 @@ addLayer("b", {
             title: "BU4",
             description: "Multiplies your air gain by balloon upgrades bought.",
             cost: new Decimal(100),
+            unlocked() {return hasUpgrade('b',13);},
             effect() {
                 return new Decimal(Object.keys(player.b.upgrades).length).max(1);
             },
@@ -75,6 +78,7 @@ addLayer("b", {
             description: "Multiplies your air gain based on air.",
             cost: new Decimal(1000),
             tooltip: "<small>Formula: log2(air+2)^1.25</small>",
+            unlocked() {return hasUpgrade('b',14);},
             effect() {
                 let air = player.points;
                 let logBase2 = air.add(2).log10().div(new Decimal(2).log10());
@@ -88,20 +92,20 @@ addLayer("b", {
             title: "BU6",
             description: "Gain 100% of your balloons on reset every second.",
             cost: new Decimal("1e9"),
-            unlocked() { return hasUpgrade('b', 15); },
+            unlocked() {return hasUpgrade('b',15);},
         },
         22: {
             title: "BU7",
             description: "Multiply your balloons based on air.",
             cost: new Decimal("1e11"),
             tooltip: "<small>Formula: (air/10)^0.15, softcaps at 1e201 air</small>",
-            unlocked() { return hasUpgrade('b', 15); },
+            unlocked() {return hasUpgrade('b',21);},
             effect() {
                 let air = player.points
                 if (player.points.lte(new Decimal("1e201"))){
                     return air.times(0.1).pow(0.15);
                 }
-                return new Decimal(10).pow((air.times(0.1).pow(0.15).log10().pow(0.9).add(3)));
+                return new Decimal(10).pow((air.times(0.1).pow(0.15).log10().times(0.9).add(3)));
             },
             effectDisplay() {
                 return "*" + format(upgradeEffect(this.layer, this.id))
@@ -111,13 +115,58 @@ addLayer("b", {
             title: "BU8",
             description: "Multiply your balloons by 1e10.",
             cost: new Decimal("1e20"),
-            unlocked() { return hasUpgrade('b', 15); },
+            unlocked() {return hasUpgrade('b',22);},
         },
         24: {
             title: "BU9",
-            description: "Raise your air by to 1.2",
+            description: "Raise your air to 1.2.",
             cost: new Decimal("1e70"),
-            unlocked() { return hasUpgrade('b', 15); },
+            unlocked() {return hasUpgrade('b',23);},
+        },
+        25: {
+            title: "BU10",
+            description: "Unlock rubber.",
+            cost: new Decimal("1e200"),
+            unlocked() {return hasUpgrade('b',24);},
+        }
+    }
+}),
+addLayer("a", {
+    name: "Achievements",
+    symbol: "A",
+    position: 0, 
+    startData() { return {
+        unlocked: true,
+        points: new Decimal(0),
+    }},
+    color: "#E5C158",
+    row: "side",
+    
+    layerShown() { return true; },
+    tooltip() {
+        return Object.keys(player.A.achievements).length + " Achievements earned";
+    },
+
+    achievements: {
+        11: {
+            name: "Getting started",
+            done() { return player.points.gte(10); },
+            tooltip: "Reach 10 air.",
+        },
+        12: {
+            name: "Pop culture",
+            done() { return player.b.points.gte(1); },
+            tooltip: "Reach 1 balloon.<br>Reward: multiply air gain by 1.1.",
+        },
+        13: {
+            name: "Now it\'s a party",
+            done() { return hasUpgrade('b', 13); },
+            tooltip: "Purchase BU3.",
+        },
+        14: {
+            name: "Inflation in both contexts",
+            done() { return hasUpgrade('b',24); },
+            tooltip: "Purchase BU9."
         }
     }
 })
