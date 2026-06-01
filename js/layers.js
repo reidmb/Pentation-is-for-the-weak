@@ -111,5 +111,10 @@ addLayer("b", {
             description: "Multiply your balloons by 1e10.",
             cost: new Decimal("1e30"),
         },
+        24: {
+            title: "BU9",
+            description: "Raise your air by to 1.2",
+            cost: new Decimal("1e70")
+        }
     }
 })
