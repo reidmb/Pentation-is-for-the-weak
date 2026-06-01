@@ -17,6 +17,7 @@ addLayer("b", {
         mult = new Decimal(1)
         exp = new Decimal(1)
         if (hasUpgrade('b',22)) mult = mult.times(upgradeEffect('b',22))
+        if (hasUpgrade('b',23)) mult = mult.times(new Decimal("1e10"))
         return mult.pow(exp)
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -104,6 +105,11 @@ addLayer("b", {
             effectDisplay() {
                 return "*" + format(upgradeEffect(this.layer, this.id))
             },
-        }
+        },
+        23: {
+            title: "BU8",
+            description: "Multiply your balloons by 1e10.",
+            cost: new Decimal("1e30"),
+        },
     }
 })

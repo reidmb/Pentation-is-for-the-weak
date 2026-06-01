@@ -17,10 +17,10 @@ let VERSION = {
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0.0.1 (June 1, 2026, 15:32)</h3><br>
+	<h3>v0.0.0.1 (June 1, 2026, 15:48)</h3><br>
 		<b>The balloon update</b><br>
 		- Added balloons.<br>
-		- Added 7 balloon upgrades.<br>`
+		- Added 8 balloon upgrades.<br>`
 
 let winText = `Congratulations! You made a few too many balloons. What now?`
 
