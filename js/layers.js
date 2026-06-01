@@ -38,7 +38,7 @@ addLayer("b", {
         },
         13: {
             title: "BU3",
-            description: "Multiplies your air gain by (balloons+log(balloons+10))^0.8",
+            description: "Multiplies your air gain<br><small>Formula: (balloons+log(balloons+10))^0.8</small>",
             cost: new Decimal(5),
             effect() {
                 let balloons = player.b.points;
