@@ -15,7 +15,9 @@ addLayer("b", {
     exponent: 0.833333333333333, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
-        return mult
+        exp = new Decimal(1)
+        if (hasUpgrade('b',22)) mult = mult.times(upgradeEffect('b',22))
+        return mult.pow(exp)
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
@@ -83,9 +85,25 @@ addLayer("b", {
         },
         21: {
             title: "BU6",
-            description: "Gain 100% of your balloons on reset every second",
+            description: "Gain 100% of your balloons on reset every second.",
             cost: new Decimal("1e9"),
             unlocked() { return hasUpgrade('b', 15); },
         },
+        22: {
+            title: "BU7",
+            description: "Multiply your balloons based on air.",
+            cost: new Decimal("1e11"),
+            tooltip: "<small>Formula: (air/10)^0.15, softcaps at 1e201 air</small>",
+            effect() {
+                let air = player.points
+                if (player.points.lte(new Decimal("1e201"))){
+                    return air.times(0.1).pow(0.15);
+                }
+                return new Decimal(10).pow((air.times(0.1).pow(0.15).log10().pow(0.9).times(new Decimal(1e30).pow(0.1))));
+            },
+            effectDisplay() {
+                return "*" + format(upgradeEffect(this.layer, this.id))
+            },
+        }
     }
 })
