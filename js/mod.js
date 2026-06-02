@@ -18,7 +18,7 @@ let VERSION = {
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0.0.1 (June 1, 2026, 23:34)</h3><br>
+	<h3>v0.0.0.1 (June 1, 2026, 23:48)</h3><br>
 		<b>The balloon update</b><br>
 		- Added balloons.<br>
 		- Added rubber.<br>
@@ -67,7 +67,11 @@ function getPointGen() {
 	//B upgrades
 	if (hasUpgrade('b',24)) gain = gain.pow(1.2);
 	//Softcaps
-	if (player.points.gte(new Decimal("1e300"))) gain = new Decimal(10).pow(player.points.log10().times(0.75).add(75))
+	if (player.points.gte("1e300")) {
+        let logPoints = gain.log10();
+        let newExponent = logPoints.times(0.75).add(75);
+        gain = new Decimal(10).pow(newExponent);
+    }
 	
 	return gain;
 }
