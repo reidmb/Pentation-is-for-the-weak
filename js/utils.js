@@ -323,12 +323,30 @@ document.onkeydown = function (e) {
 
 function format(decimal, precision = 2) {
     if (decimal === undefined || decimal === null) return "0";
+    
+    // Ensure we are working with an OmegaNum/Decimal object
     decimal = new Decimal(decimal);
-    if (decimal.isNaN()) return "0";
+    
+    // Hard check: If a calculation accidentally resulted in NaN, return a safe string
+    if (decimal.isNaN && decimal.isNaN()) return "0";
+    if (isNaN(decimal.mag)) return "0"; 
+
+    // If the number is incredibly massive (OmegaNum nested array limits)
     if (decimal.array && decimal.array.length > 2) {
         return decimal.toString(); 
     }
+    
+    // Fallback to standard TMT exponential format for normal viewing numbers
     return exponentialFormat(decimal, precision);
+}
+
+// Add this quick safety check patch right below the format function
+function checkDecimalNaN(decimal) {
+    if (decimal === undefined || decimal === null) return true;
+    let d = new Decimal(decimal);
+    if (d.isNaN && d.isNaN()) return true;
+    if (isNaN(d.mag)) return true;
+    return false;
 }
 
 var onFocused = false
