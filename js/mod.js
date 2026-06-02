@@ -18,7 +18,7 @@ let VERSION = {
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0.0.1 (June 1, 2026, 23:20)</h3><br>
+	<h3>v0.0.0.1 (June 1, 2026, 23:3)</h3><br>
 		<b>The balloon update</b><br>
 		- Added balloons.<br>
 		- Added rubber.<br>
