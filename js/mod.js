@@ -78,7 +78,14 @@ function getPointGen() {
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
 function addedPlayerData() { 
-    return {};
+    return {
+        tab: "b",             // Forces the game to open on the Balloons layer
+        navTab: "tree-tab",   // Initializes the standard Tree view layout
+        subtabs: {
+            b: { mainTabs: "main-display" }, // Safety hooks for your subtabs
+            r: { mainTabs: "main-display" }
+        }
+    }
 }
 
 // Display extra things at the top of the page
