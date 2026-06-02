@@ -18,7 +18,7 @@ let VERSION = {
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0.0.1 (June 2, 2026, 00:00)</h3><br>
+	<h3>v0.0.0.1 (June 2, 2026, 00:18)</h3><br>
 		<b>The balloon update</b><br>
 		- Added balloons.<br>
 		- Added rubber.<br>
@@ -77,8 +77,10 @@ function getPointGen() {
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
-function addedPlayerData() { return {
-}}
+function addedPlayerData() { 
+    localStorage.removeItem(modInfo.id); 
+    return {};
+}
 
 // Display extra things at the top of the page
 var displayThings = [

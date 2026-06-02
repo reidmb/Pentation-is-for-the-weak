@@ -322,21 +322,13 @@ document.onkeydown = function (e) {
 }
 
 function format(decimal, precision = 2) {
+    if (decimal === undefined || decimal === null) return "0";
     decimal = new Decimal(decimal);
-    
-    // Check if the number has expanded past standard tetration limits
+    if (decimal.isNaN()) return "0";
     if (decimal.array && decimal.array.length > 2) {
-        // Custom formatting for hyper-operations (e.g., 10^^^5)
         return decimal.toString(); 
     }
-    
-    // Standard TMT format fallback
     return exponentialFormat(decimal, precision);
-}
-
-document.onkeyup = function (e) {
-	shiftDown = e.shiftKey
-	ctrlDown = e.ctrlKey
 }
 
 var onFocused = false
