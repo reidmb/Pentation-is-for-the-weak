@@ -14,10 +14,13 @@ addLayer("b", {
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     exponent: 0.833333333333333, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
-        mult = new Decimal(1)
-        exp = new Decimal(1)
+        let mult = new Decimal(1)
+        let exp = new Decimal(1)
         if (hasUpgrade('b',22)) mult = mult.times(upgradeEffect('b',22))
         if (hasUpgrade('b',23)) mult = mult.times(new Decimal("1e10"))
+        if (layers.r && player.r && player.r.unlocked) {
+            mult = mult.times(layers.r.effect());
+        }
         return mult.pow(exp)
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -131,6 +134,64 @@ addLayer("b", {
         }
     }
 }),
+addLayer("r", {
+    name: "rubber", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "R", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: false,
+		points: new Decimal(0),
+    }},
+    color: "#00ffff",
+    requires(){return new Decimal("2e222").pow(player.r.points.add(1).pow(0.5))}, // Can be a function that takes requirement increases into account
+    resource: "rubber", // Name of prestige currency
+    baseResource: "air", // Name of resource prestige is based on
+    baseAmount() {return player.points}, // Get the current amount of baseResource
+    type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 1, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        let mult = new Decimal(1)
+        let exp = new Decimal(1)
+        return mult.pow(exp)
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 1, // Row the layer is in on the tree (0 is the first row)
+    hotkeys: [
+        {key: "r", description: "R: Reset for rubber", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+    ],
+    layerShown(){return true},
+    update(diff) {
+        if (false) {
+            player.r.points = player.r.points.add(getResetGain('r').times(diff));
+        }
+    },
+    effect() {
+        let rubber = player.r.points;
+        if (rubber.lte(100)) {
+            return new Decimal(3).pow(rubber);
+        } else {
+            let basePart = new Decimal(3).pow(100);
+            let overPart = rubber.sub(100).pow(0.2);
+            let softcapPart = new Decimal(3).pow(overPart);
+            return basePart.times(softcapPart);
+        }
+    },
+    effectDisplay() {
+        return "*" + format(layers.r.effect());
+    },
+    tabFormat: [
+        "main-display",
+        "blank",
+        ["display-text", function() { return "Your rubber is providing a <span class='hueshift-text'>*" + format(layers.r.effect()) + "</span> bonus to air and balloon gain."; }],
+        "blank",
+        "upgrades"
+    ],
+    upgrades: {
+        
+    }
+}),
 addLayer("a", {
     name: "Achievements",
     symbol: "A",
@@ -150,8 +211,8 @@ addLayer("a", {
     achievements: {
         11: {
             name: "Getting started",
-            done() { return player.points.gte(10); },
-            tooltip: "Reach 10 air.",
+            done() { return player.points.gte(1); },
+            tooltip: "Reach 1 air.",
         },
         12: {
             name: "Pop culture",
@@ -167,6 +228,11 @@ addLayer("a", {
             name: "Inflation in both contexts",
             done() { return hasUpgrade('b',24); },
             tooltip: "Purchase BU9."
+        },
+        15: {
+            name: "Flexible",
+            done() { return player.r.points.gte(1); },
+            tooltip: "Reach 1 rubber.<br>Reward: air gain ^1e1000, then ^1e-1000 if you have rubber or used to have rubber."
         }
     }
 })

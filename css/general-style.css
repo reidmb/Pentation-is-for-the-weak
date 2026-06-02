@@ -39,3 +39,12 @@ h1, h2, h3, b, input {
 	color: var(--points);
 	text-shadow: 0 0 10px var(--points);
 }
+@keyframes text-hueshift {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+}
+.hueshift-text {
+    color: #ff0055;
+    animation: text-hueshift 5s linear infinite;
+    font-weight: bold;
+}

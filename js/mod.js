@@ -1,3 +1,4 @@
+window.Decimal = OmegaNum;
 let modInfo = {
 	name: "The Balloon Tree",
 	author: "The universe",
@@ -17,10 +18,11 @@ let VERSION = {
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0.0.1 (June 1, 2026, 15:48)</h3><br>
+	<h3>v0.0.0.1 (June 1, 2026, 22:39)</h3><br>
 		<b>The balloon update</b><br>
 		- Added balloons.<br>
-		- Added 8 balloon upgrades.<br>`
+		- Added rubber.<br>
+		- Added 10 balloon upgrades.<br>`
 
 let winText = `Congratulations! You made a few too many balloons. What now?`
 
@@ -49,6 +51,10 @@ function getPointGen() {
 	if (hasUpgrade('b',12)) gain = gain.add(2);
 	
 	//Multiplication
+	//R effect
+	if (player.r && player.r.unlocked) {
+        gain = gain.times(layers.r.effect());
+    }
 	//B upgrades
 	if (hasUpgrade('b',11)) gain = gain.times(2);
 	if (hasUpgrade('b',13)) gain = gain.times(upgradeEffect('b',13));
@@ -60,7 +66,9 @@ function getPointGen() {
 	//Exponentiation
 	//B upgrades
 	if (hasUpgrade('b',24)) gain = gain.pow(1.2);
-	//Ok done
+	//Softcaps
+	if (player.points.gte(new Decimal("1e300"))) gain = new Decimal(10).pow(player.points.log10().times(0.75).add(75))
+	
 	return gain;
 }
 
@@ -75,7 +83,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("1e20"))
+	return player.points.gte(new Decimal("1e300"))
 }
 
 
