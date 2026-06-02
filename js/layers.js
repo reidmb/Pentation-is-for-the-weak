@@ -231,8 +231,10 @@ addLayer("a", {
         },
         15: {
             name: "Flexible",
-            done() { return player.r.points.gte(1); },
-            tooltip: "Reach 1 rubber.<br>Reward: air gain ^1e1000, then ^1e-1000 if you have rubber or used to have rubber."
+            done() { 
+                return player[this.layer] && hasUpgrade('b', 25) && player.r.points.gte(1); 
+            },
+            tooltip: "Reach 1 rubber."
         }
     }
 })
