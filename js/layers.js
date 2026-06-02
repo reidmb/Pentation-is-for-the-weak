@@ -144,7 +144,7 @@ addLayer("a", {
     
     layerShown() { return true; },
     tooltip() {
-        return Object.keys(player.A.achievements).length + " Achievements earned";
+        return Object.keys(player.a.achievements).length + " Achievements earned";
     },
 
     achievements: {
