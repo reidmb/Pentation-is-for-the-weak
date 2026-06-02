@@ -202,7 +202,7 @@ addLayer("a", {
     }},
     color: "#E5C158",
     row: "side",
-    
+    leftTab: true,
     layerShown() { return true; },
     tooltip() {
         return Object.keys(player.a.achievements).length + " Achievements earned";
