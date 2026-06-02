@@ -18,7 +18,7 @@ let VERSION = {
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0.0.1 (June 1, 2026, 23:48)</h3><br>
+	<h3>v0.0.0.1 (June 2, 2026, 00:00)</h3><br>
 		<b>The balloon update</b><br>
 		- Added balloons.<br>
 		- Added rubber.<br>
@@ -68,7 +68,7 @@ function getPointGen() {
 	if (hasUpgrade('b',24)) gain = gain.pow(1.2);
 	//Softcaps
 	if (player.points.gte("1e300")) {
-        let logPoints = gain.log10();
+        let logPoints = gain.max(1).log10();
         let newExponent = logPoints.times(0.75).add(75);
         gain = new Decimal(10).pow(newExponent);
     }
@@ -86,9 +86,7 @@ var displayThings = [
 ]
 
 // Determines when the game "ends"
-function isEndgame() {
-	return player.points.gte(new Decimal("1e300"))
-}
+function isEndgame() { return player.points.gte("1e300") }
 
 
 
