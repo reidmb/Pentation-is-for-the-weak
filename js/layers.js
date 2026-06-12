@@ -197,17 +197,16 @@ addLayer("a", {
     symbol: "A",
     position: 0, 
     startData() { return {
-        unlocked: true,
-        points: new Decimal(0),
+        unlocked: true, 
     }},
     color: "#E5C158",
+    type: "none", 
     row: "side",
-    leftTab: true,
     layerShown() { return true; },
     tooltip() {
+        if (!player.a || !player.a.achievements) return "0 Achievements earned";
         return Object.keys(player.a.achievements).length + " Achievements earned";
     },
-
     achievements: {
         11: {
             name: "Getting started",
